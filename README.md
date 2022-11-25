@@ -4,10 +4,10 @@ FastCrypt is a very simple encryption and decryption program. It generates rando
 
 ### For example
 
-> input:      file.txt
-> string key: sny
-> int key:    110123106
-> output:     file.sny
+- input:      file.txt
+- string key: sny
+- int key:    110123106
+- output:     file.sny
 
 ## Compilation
 
