@@ -1,6 +1,6 @@
 # FastCrypt
 
-FastCrypt is a very simple encryption and decryption program. It generates random string, converts it to int and uses it as encryption key. Then saves encrypted file with key as extension. When decrypting we need to give program original extension because program at current form doesnt save original file extension.
+FastCrypt is a very simple encryption and decryption program. It generates random string, converts it to int and uses it as encryption key. Then saves encrypted file with key as extension. Decrypting is straight forward, just choose encrypted file and it will return original.
 
 ### For example
 
