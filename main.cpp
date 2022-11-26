@@ -3,9 +3,11 @@
 #include <fstream>
 #include <string>
 
-bool encryptFile(std::string filePath);
+#define VERSION "1.0.1"
 
-bool decryptFile(std::string filePath);
+void encryptFile(std::string filePath);
+
+void decryptFile(std::string filePath);
 
 std::string gen_random(const int len);
 
@@ -31,8 +33,12 @@ int main(int argc, char** argv)
             std::cout << "There's no file given.\n";
         }
 
-    }else if(command=="-help"){
+    }else if(command=="--version"){
 
+            std::cout << "\n Current instaled version: " << VERSION << " | Build from: " << std::string(__DATE__) << "\n\n" ;
+        
+    }else if(command=="-help"){
+        std::cout << "--version                 - returns version.\n";
         std::cout << "encrypt <pathtofile>      - encrypts given file.\n";
         std::cout << "decrypt <pathtofile>      - decrypts given file.\n";
 
@@ -43,14 +49,14 @@ int main(int argc, char** argv)
     return 0;
 }
 
-bool encryptFile(std::string filePath){
+void encryptFile(std::string filePath){
     char c;
 
     size_t lastindex = filePath.find_last_of("."); 
     std::string path = filePath;
     filePath = filePath.substr(0, lastindex); 
 
-    bool succes = true;
+    //bool succes = true;
     std::string key = gen_random(3);
     int intkey = strToIntKey(key);
 
@@ -99,10 +105,10 @@ bool encryptFile(std::string filePath){
     fout.close();
     
 
-    return succes;
+    //return succes;
 }
 
-bool decryptFile(std::string filePath){
+void decryptFile(std::string filePath){
     char c;
 
     size_t lastindex = filePath.find_last_of("."); 
