@@ -52,11 +52,14 @@ int main(int argc, char** argv)
 void encryptFile(std::string filePath){
     char c;
 
+    std::string originalExtension = "";
+
     size_t lastindex = filePath.find_last_of("."); 
     std::string path = filePath;
     filePath = filePath.substr(0, lastindex); 
 
-    //bool succes = true;
+    originalExtension = path.substr(lastindex+1, path.length()-lastindex);
+
     std::string key = gen_random(3);
     int intkey = strToIntKey(key);
 
@@ -81,31 +84,21 @@ void encryptFile(std::string filePath){
 
     std::cout << "> Attempting to encrypt: " << path << "\n> Output file: " << out << "\n";
  
-    // Input stream
     std::fstream fin, fout;
  
-    // Open input file
-    // ios::binary- reading file
-    // character by character
     fin.open(path, std::fstream::in);
     fout.open(out, std::fstream::out);
+
+    fout << originalExtension.length();
+    fout << originalExtension;
  
-    // Reading original file till
-    // end of file
     while (fin >> std::noskipws >> c) {
         int temp = (c + intkey);
- 
-        // Write temp as char in
-        // output file
         fout << (char)temp;
     }
  
-    // Closing both files
     fin.close();
     fout.close();
-    
-
-    //return succes;
 }
 
 void decryptFile(std::string filePath){
@@ -115,14 +108,10 @@ void decryptFile(std::string filePath){
     std::string path = filePath;
     filePath = filePath.substr(0, lastindex); 
 
-    std::string extension = "txt";
+    std::string extension = "";
 
     std::string key = path.substr(lastindex+1,3);
-
-    //std::cout << key;
     int intkey = strToIntKey(key);
-
-    std::cout << "> Give original file extension (its only so system can open it properly, if you not sure you can try changing it manualy later.) : "; std::cin >> extension;
 
     char sep = '/';
     std::string fileName = filePath;
@@ -131,20 +120,41 @@ void decryptFile(std::string filePath){
         sep = '\\';
     #endif
 
+    
+    std::fstream fin;
+    fin.open(path, std::fstream::in);
+
+    bool first = true;
+    int count = 0,cnt = 0;
+
+    char firstChar;
+ 
+    while (fin >> std::noskipws >> c) {
+        if(first){
+            count = c - 48;
+            cnt = count;
+            first = false;
+        }else{
+            if(count > 0){
+                count--;
+                extension.push_back(c);
+            }else{
+                firstChar = (c - intkey);
+                break;
+            }
+        }
+    }
+
     std::string out = filePath + "." + extension;
 
     std::cout << "> Attempting to decrypt: " << path << "\n> Output file: " << out << "\n";
-
     
-    std::fstream fin;
     std::fstream fout;
-    fin.open(path, std::fstream::in);
     fout.open(out, std::fstream::out);
+
+    fout << firstChar;
  
     while (fin >> std::noskipws >> c) {
- 
-        // Remove the key from the
-        // character
         int temp = (c - intkey);
         fout << (char)temp;
     }
@@ -176,14 +186,9 @@ int strToIntKey(std::string str){
     for(int i = 0; i<str.length(); i++){
         char tempChar = str[i];
         int tempInt = int(tempChar);
-        //std::cout << "> int: " << tempInt << "\n";
         temp += std::to_string(tempInt);
     }
 
     out = std::stoi(temp);
-
-    std::cout << "> int key: " << out << "\n";
-
-
     return out;
 }
