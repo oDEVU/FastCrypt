@@ -1,0 +1,3 @@
+/home/arch/Documents/GitHub/FastCrypt/build/CMakeFiles/crypt.dir
+/home/arch/Documents/GitHub/FastCrypt/build/CMakeFiles/edit_cache.dir
+/home/arch/Documents/GitHub/FastCrypt/build/CMakeFiles/rebuild_cache.dir
